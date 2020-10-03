@@ -26,6 +26,8 @@ namespace EscapeReloaded
 
                 Harmony = new Harmony("escapereloaded.instance");
 
+                Harmony.PatchAll();
+
                 EventHandlers = new EventHandlers();
 
                 Handlers.Server.RoundStarted += EventHandlers.OnRoundStart;
@@ -41,9 +43,14 @@ namespace EscapeReloaded
 
         public override void OnDisabled()
         {
+
+            Harmony.UnpatchAll();
+
             Handlers.Server.RoundStarted -= EventHandlers.OnRoundStart;
             Handlers.Server.RoundEnded -= EventHandlers.OnRoundEnd;
 
+            Instance = null;
+            Harmony = null;
             EventHandlers = null;
         }
 
